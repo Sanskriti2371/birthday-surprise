@@ -115,6 +115,20 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Auto-start music on very first interaction (browsers block autoplay without it)
+  function autoStartMusic() {
+    if (!musicPlaying) {
+      startMusic();
+    }
+    // Remove all listeners after first trigger
+    ["click", "touchstart", "keydown"].forEach(evt =>
+      document.removeEventListener(evt, autoStartMusic)
+    );
+  }
+  ["click", "touchstart", "keydown"].forEach(evt =>
+    document.addEventListener(evt, autoStartMusic, { once: false })
+  );
+
   // --- 1. NORTHERN LIGHTS & STARS CANVAS BACKGROUND ---
   const skyCanvas = document.getElementById("skyCanvas");
   const ctx = skyCanvas.getContext("2d");
@@ -224,8 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Screen 1 (POV Intro) -> Screen 2
   document.getElementById("intro-btn").addEventListener("click", () => {
     goToScreen(2);
-    // Start birthday music on first user interaction (required by browsers)
-    if (!musicPlaying) startMusic();
   });
 
   // Screen 2 -> Screen 3
