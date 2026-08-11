@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday! ❤️✨</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Work+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Northern Lights & Starry Background Canvas -->
+    <canvas id="skyCanvas"></canvas>
+
+    <!-- Main Container -->
+    <main class="app-container">
+
+        <!-- SCREEN 1: POV INTRO -->
+        <section id="screen-1" class="screen active">
+            <canvas id="confettiCanvas"></canvas>
+            <div class="glass-card intro-card">
+                <span class="badge">POV ✨</span>
+                <div class="cake-icon floating">🎂</div>
+                <h1 class="greeting">It's your favourite person's birthday</h1>
+                <p class="subtitle">...and you're about to make their day magical</p>
+                <div class="action-wrapper">
+                    <button id="intro-btn" class="primary-btn glow-effect">
+                        <span>Let's celebrate</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 2: OPENING -->
+        <section id="screen-2" class="screen">
+            <div class="glass-card welcome-card">
+                <span class="badge">Special Delivery ✨</span>
+                <h1 class="greeting">Hello cutieee ❤️</h1>
+                <p class="subtitle">I made something for you...</p>
+                <div class="action-wrapper">
+                    <button id="start-btn" class="primary-btn glow-effect">
+                        <span>Continue to your gift</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 3: GIFT ACCEPTANCE -->
+        <section id="screen-3" class="screen">
+            <div class="glass-card gift-card">
+                <div class="gift-icon-wrapper floating">
+                    🎁
+                </div>
+                <h2>Will you see it??? pls 🥺</h2>
+                <p id="gift-prompt-text">I worked really hard on this, pretty please?</p>
+                
+                <div class="button-group">
+                    <button id="yes-btn" class="primary-btn glow-effect">Yes, absolutely! 💖</button>
+                    <button id="no-btn" class="secondary-btn">No way 🙈</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SCREEN 4: BOUQUET REVEAL -->
+        <section id="screen-4" class="screen">
+            <div class="screen-header">
+                <h2>Pick Your Birthday Bouquets</h2>
+                <p>Click each bouquet to flip it and read your special message. (Explore all 3 to continue!)</p>
+            </div>
+
+            <div class="bouquet-grid">
+                <!-- Bouquet 1 -->
+                <div class="flip-card" data-bouquet="1">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="card-image-wrapper">
+                                <!-- Customized AI Bouquet Image 1 -->
+                                <img src="https://images.unsplash.com/photo-1561181286-d3fee7d55364?q=80&w=600&auto=format&fit=crop" alt="Sunset Peach Bouquet">
+                            </div>
+                            <div class="card-label">
+                                <h3>Sunset Rose Bouquet</h3>
+                                <span class="tap-hint">Tap to flip ✨</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Radiant Joy</h3>
+                            <p>May your days always be filled with the warmth of golden hour sunsets and the softest, purest smiles.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouquet 2 -->
+                <div class="flip-card" data-bouquet="2">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="card-image-wrapper">
+                                <!-- Customized AI Bouquet Image 2 -->
+                                <img src="https://images.unsplash.com/photo-1526047932273-341f2a7631f9?q=80&w=600&auto=format&fit=crop" alt="Dreamy Berry Peony Bouquet">
+                            </div>
+                            <div class="card-label">
+                                <h3>Dreamy Berry Peonies</h3>
+                                <span class="tap-hint">Tap to flip ✨</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Endless Magic</h3>
+                            <p>You bring so much gentle grace and beauty into the world. Never stop shining your gorgeous light!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bouquet 3 -->
+                <div class="flip-card" data-bouquet="3">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <div class="card-image-wrapper">
+                                <!-- Customized Bouquet Image 3 -->
+                                <img src="bouquet3.jpg" alt="Blush Garden Bouquet">
+                            </div>
+                            <div class="card-label">
+                                <h3>Blush Garden Bouquet</h3>
+                                <span class="tap-hint">Tap to flip ✨</span>
+                            </div>
+                        </div>
+                        <div class="flip-card-back">
+                            <h3>Sweetest Dreams</h3>
+                            <p>Here’s to another year of beautiful adventures, cozy moments, and all your biggest dreams coming true.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="action-wrapper center">
+                <button id="to-memories-btn" class="primary-btn glow-effect" disabled>
+                    <span>View Our Memories & Wish</span>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+            </div>
+        </section>
+
+        <!-- SCREEN 5: POLAROID MEMORIES + FINAL WISH -->
+        <section id="screen-5" class="screen">
+            <!-- Flower Petal Rain Canvas Layer -->
+            <canvas id="petalCanvas"></canvas>
+
+            <div class="screen-header">
+                <h2>Precious Memories</h2>
+                <p>Captured moments of pure warmth and joy.</p>
+            </div>
+
+            <!-- Polaroid Grid (6 memories) -->
+            <div class="polaroid-grid">
+                <div class="polaroid">
+                    <div class="polaroid-img">
+                        <img src="WhatsApp Image 2026-08-11 at 7.57.30 PM.jpeg" alt="Memory 1">
+                    </div>
+                    <p class="caption">That radiant smile ✨</p>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-img">
+                        <img src="WhatsApp Image 2026-08-11 at 7.52.38 PM.jpeg" alt="Memory 2">
+                    </div>
+                    <p class="caption">Endless laughter 🥂</p>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-img">
+                        <img src="WhatsApp Image 2026-08-11 at 7.52.39 PM.jpeg" alt="Memory 3">
+                    </div>
+                    <p class="caption">Golden hour magic 🌅</p>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-img">
+                        <img src="WhatsApp Image 2026-08-11 at 7.55.46 PM.jpeg" alt="Memory 4">
+                    </div>
+                    <p class="caption">Absolute diva 👑</p>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-img">
+                        <img src="WhatsApp Image 2026-08-11 at 7.56.31 PM.jpeg" alt="Memory 5">
+                    </div>
+                    <p class="caption">Adventures together 🗺️</p>
+                </div>
+                <div class="polaroid">
+                    <div class="polaroid-img">
+                        <img src="WhatsApp Image 2026-08-11 at 7.57.30 PM.jpeg" alt="Memory 6">
+                    </div>
+                    <p class="caption">Simply unforgettable 💖</p>
+                </div>
+            </div>
+
+            <!-- Warm Birthday Message Card -->
+            <div class="glass-card final-message-card">
+                <span class="badge">Happy Birthday! 🎉</span>
+                <h2>To the most wonderful soul,</h2>
+                <p>
+                  Happy Birthday to my forever person! ❤️✨ 14 years of friendship, countless memories, endless laughter, silly fights, and so many beautiful moments — and I’m so grateful for every single one of them. 🥹💕 You’ve been a constant through all these years, and I genuinely feel lucky to have grown up with you by my side. Here’s to many more years of friendship, adventures, and memories together. I love you endlessly, and I hope life gives you all the happiness you truly deserve. 🫶🏻🎂✨
+
+                </p>
+                <div class="signature">
+                    <span>With all my heart,</span>
+                    <span class="handwritten">Yours truly ✨</span>
+                </div>
+            </div>
+
+            <div class="action-wrapper center">
+                <button id="play-again-btn" class="primary-btn glow-effect">
+                    <span>Play Again 🔄</span>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
