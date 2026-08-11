@@ -1,4 +1,120 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // --- 0. HAPPY BIRTHDAY MUSIC SYSTEM (Web Audio API) ---
+  let audioCtx = null;
+  let musicPlaying = false;
+  let musicTimeout = null;
+  let currentGainNode = null;
+
+  const musicBtn = document.getElementById("music-toggle");
+  const musicIcon = musicBtn.querySelector(".music-icon");
+
+  // Happy Birthday melody - [note frequency, duration in beats]
+  // Key of C major, with a warm feel
+  const melody = [
+    // "Hap-py birth-day to you"
+    [262, 0.75], [262, 0.25], [294, 1], [262, 1], [349, 1], [330, 2],
+    // "Hap-py birth-day to you"
+    [262, 0.75], [262, 0.25], [294, 1], [262, 1], [392, 1], [349, 2],
+    // "Hap-py birth-day dear ___"
+    [262, 0.75], [262, 0.25], [523, 1], [440, 1], [349, 1], [330, 1], [294, 2],
+    // "Hap-py birth-day to you"
+    [466, 0.75], [466, 0.25], [440, 1], [349, 1], [392, 1], [349, 2],
+  ];
+
+  const BPM = 120;
+  const beatDuration = 60 / BPM;
+
+  function playNote(freq, startTime, duration) {
+    if (!audioCtx) return;
+
+    const osc = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    const filterNode = audioCtx.createBiquadFilter();
+
+    // Warm piano-like tone using triangle wave + filter
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, startTime);
+
+    // Add slight vibrato for warmth
+    const vibrato = audioCtx.createOscillator();
+    const vibratoGain = audioCtx.createGain();
+    vibrato.frequency.setValueAtTime(5, startTime);
+    vibratoGain.gain.setValueAtTime(2, startTime);
+    vibrato.connect(vibratoGain);
+    vibratoGain.connect(osc.frequency);
+    vibrato.start(startTime);
+    vibrato.stop(startTime + duration);
+
+    // Soft low-pass filter
+    filterNode.type = "lowpass";
+    filterNode.frequency.setValueAtTime(2000, startTime);
+
+    // ADSR-like envelope
+    gainNode.gain.setValueAtTime(0, startTime);
+    gainNode.gain.linearRampToValueAtTime(0.15, startTime + 0.05);
+    gainNode.gain.exponentialRampToValueAtTime(0.1, startTime + duration * 0.3);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration - 0.02);
+    gainNode.gain.linearRampToValueAtTime(0, startTime + duration);
+
+    osc.connect(filterNode);
+    filterNode.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+
+    osc.start(startTime);
+    osc.stop(startTime + duration);
+
+    return gainNode;
+  }
+
+  function playMelody() {
+    if (!audioCtx || !musicPlaying) return;
+
+    let currentTime = audioCtx.currentTime + 0.1;
+
+    melody.forEach(([freq, beats]) => {
+      const duration = beats * beatDuration;
+      currentGainNode = playNote(freq, currentTime, duration * 0.9);
+      currentTime += duration;
+    });
+
+    // Total melody duration, then loop with a pause
+    const totalDuration = melody.reduce((sum, [, beats]) => sum + beats, 0) * beatDuration;
+    musicTimeout = setTimeout(() => {
+      if (musicPlaying) playMelody();
+    }, (totalDuration + 1.5) * 1000);
+  }
+
+  function startMusic() {
+    if (!audioCtx) {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    }
+    if (audioCtx.state === "suspended") {
+      audioCtx.resume();
+    }
+    musicPlaying = true;
+    musicBtn.classList.add("playing");
+    musicIcon.textContent = "🎵";
+    playMelody();
+  }
+
+  function stopMusic() {
+    musicPlaying = false;
+    musicBtn.classList.remove("playing");
+    musicIcon.textContent = "🔇";
+    if (musicTimeout) {
+      clearTimeout(musicTimeout);
+      musicTimeout = null;
+    }
+  }
+
+  musicBtn.addEventListener("click", () => {
+    if (musicPlaying) {
+      stopMusic();
+    } else {
+      startMusic();
+    }
+  });
+
   // --- 1. NORTHERN LIGHTS & STARS CANVAS BACKGROUND ---
   const skyCanvas = document.getElementById("skyCanvas");
   const ctx = skyCanvas.getContext("2d");
@@ -108,6 +224,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Screen 1 (POV Intro) -> Screen 2
   document.getElementById("intro-btn").addEventListener("click", () => {
     goToScreen(2);
+    // Start birthday music on first user interaction (required by browsers)
+    if (!musicPlaying) startMusic();
   });
 
   // Screen 2 -> Screen 3
